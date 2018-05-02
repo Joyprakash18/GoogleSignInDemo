@@ -2,6 +2,7 @@ package com.example.pc41.googlesignindemo;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
-
     private SignInButton btnSignIn;
     private Button btnSignOut;
     private LinearLayout profileLayout;
@@ -104,17 +105,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             GoogleSignInAccount signInAccount = result.getSignInAccount();
             String name=signInAccount.getDisplayName();
             String email=signInAccount.getEmail();
+            Uri profilrImageUrl1=signInAccount.getPhotoUrl();
             txtName.setText(name);
             txtEmail.setText(email);
-            //String profilrImageUrl=signInAccount.getPhotoUrl().toString();
+            //Picasso.with(this).load(profilrImageUrl1).into(profilePicture);
             if (signInAccount.getPhotoUrl()==null)
-            {
-                profilePicture.setImageResource(R.drawable.ic_noun_112829_cc);
-            }
-            else {
-                String profilrImageUrl=signInAccount.getPhotoUrl().toString();
-                Picasso.with(this).load(profilrImageUrl).into(profilePicture);
-            }
+           {
+               profilePicture.setImageResource(R.drawable.ic_noun_112829_cc);
+           }
+           else { Uri profilrImageUrl=signInAccount.getPhotoUrl();
+               Picasso.with(this).load(profilrImageUrl).into(profilePicture);
+           }
             updateUI(true);
         }
         else {
